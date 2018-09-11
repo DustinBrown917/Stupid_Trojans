@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour {
     public float LevelStartTime { get; private set; }
 
     public GameState state { get; private set; }
+    public bool Paused { get; private set; }
 
     public int Deaths { get { return _deaths; } }
     private int _deaths = 0;
@@ -61,8 +62,11 @@ public class GameManager : MonoBehaviour {
             }
 
             OnGameStateChanged(args);
-
-            gameOverScreen.gameObject.SetActive(true);
+            if (newState == GameState.GAMEOVER || newState == GameState.START_SCREEN)
+            {
+                gameOverScreen.gameObject.SetActive(true);
+            }
+            UnpauseGame();         
         }
         catch(Exception e)
         {
@@ -99,9 +103,25 @@ public class GameManager : MonoBehaviour {
         OnDeathsChanged(args);
     }
 
-    public void ResetGame()
+    public void QuitGame()
     {
-        SetDeaths(0);
+        Application.Quit();
+    }
+
+    public void PauseGame()
+    {
+        if (Paused) { return; }
+        Paused = true;
+        Time.timeScale = 0;
+        OnPauseStateChanged();
+    }
+
+    public void UnpauseGame()
+    {
+        if(!Paused) { return; }
+        Paused = false;
+        Time.timeScale = 1;
+        OnPauseStateChanged();
     }
 
 
@@ -139,13 +159,25 @@ public class GameManager : MonoBehaviour {
         public int newDeaths;
     }
 
-    public void OnDeathsChanged(DeathsChangedArgs args)
+    private void OnDeathsChanged(DeathsChangedArgs args)
     {
         EventHandler<DeathsChangedArgs> handler = DeathsChanged;
 
         if(handler != null)
         {
             handler(this, args);
+        }
+    }
+
+    public event EventHandler PauseStateChanged;
+
+    private void OnPauseStateChanged()
+    {
+        EventHandler handler = PauseStateChanged;
+
+        if(handler != null)
+        {
+            handler(this, EventArgs.Empty);
         }
     }
 
@@ -158,7 +190,6 @@ public class GameManager : MonoBehaviour {
     {
         START_SCREEN,
         PLAYING,
-        PAUSED,
         GAMEOVER
     }
 }

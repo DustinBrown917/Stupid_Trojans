@@ -19,12 +19,18 @@ public class Gate : MonoBehaviour {
     private Vector2 minScoreForce;
     [SerializeField]
     private float variableScoreTorque;
-    
+
+    private AudioSource audioSource;
 
     private Queue<GameObject> plusOneTextPool = new Queue<GameObject>();
 
-	// Use this for initialization
-	void Start () {
+    private void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
+
+    // Use this for initialization
+    void Start () {
         PlayerControl.Instance.ScoreChanged += PlayerControl_ScoreChanged;
 	}
 
@@ -41,6 +47,7 @@ public class Gate : MonoBehaviour {
     {
         GameObject floatingText = GetPlusOneText();
 
+        audioSource.Play();
 
         StartCoroutine(LaunchScoreThenFade(floatingText, fadeTime));
         

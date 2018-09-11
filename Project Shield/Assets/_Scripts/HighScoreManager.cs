@@ -29,7 +29,6 @@ public static class HighScoreManager {
         }
         else
         {
-            Debug.Log("Got this far");
             for (int i = 0; i < highScores.Count; i++)
             {
                 if (highScore.score > highScores[i].score)

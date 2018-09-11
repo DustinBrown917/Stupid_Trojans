@@ -25,7 +25,7 @@ public class TroopSpawner : MonoBehaviour {
         if(e.newState == GameManager.GameState.PLAYING)
         {
             StartSpawning();
-        } else if(e.newState == GameManager.GameState.GAMEOVER)
+        } else 
         {
             StopSpawning();
         }

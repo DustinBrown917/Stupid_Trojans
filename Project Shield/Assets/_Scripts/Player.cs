@@ -24,16 +24,16 @@ public class Player : MonoBehaviour {
     }
 
     // Use this for initialization
-    void Start () {
-        
-	}
+    void Start() {
+
+    }
 
 
 
     // Update is called once per frame
-    void Update () {
+    void Update() {
 
-        if(GameManager.Instance.state != GameManager.GameState.PLAYING) { return; }
+        if (GameManager.Instance.state != GameManager.GameState.PLAYING || GameManager.Instance.Paused) { return; }
 
         if (Input.GetKey(KeyCode.A))
         {

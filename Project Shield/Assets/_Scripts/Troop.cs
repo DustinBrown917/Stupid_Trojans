@@ -7,6 +7,9 @@ public class Troop : MonoBehaviour {
     private Rigidbody2D rb2d;
     private bool isAlive = true;
     private SpriteRenderer spriteRenderer;
+    private AudioSource audioSource;
+    [SerializeField]
+    private AudioClip[] hitSounds;
 
     public static List<Troop> Troops = new List<Troop>();
 
@@ -20,6 +23,7 @@ public class Troop : MonoBehaviour {
     private void Awake()
     {
         rb2d = GetComponent<Rigidbody2D>();
+        audioSource = GetComponent<AudioSource>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }
 
@@ -31,9 +35,20 @@ public class Troop : MonoBehaviour {
 
     private void GameManager_GameStateChanged(object sender, GameManager.GameStateChangedArgs e)
     {
-        if(e.newState == GameManager.GameState.GAMEOVER)
+        if (e.newState == GameManager.GameState.GAMEOVER)
         {
             Kill();
+        }
+        else if (e.newState == GameManager.GameState.START_SCREEN)
+        {
+            Troops.Add(this);
+            if(fading != null)
+            {
+                StopCoroutine(fading);
+                fading = null;
+            }
+            gameObject.layer = 13;
+            gameObject.SetActive(false);
         }
     }
 
@@ -59,9 +74,10 @@ public class Troop : MonoBehaviour {
 
     private void Kill()
     {
-
         if (!isAlive) { return; }
         isAlive = false;
+        audioSource.clip = hitSounds[UnityEngine.Random.Range(0, hitSounds.Length)];
+        audioSource.Play();
         rb2d.AddForce(new Vector2(-10f, 50f));
         rb2d.angularVelocity = -180f;
 

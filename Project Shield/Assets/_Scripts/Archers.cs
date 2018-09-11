@@ -30,10 +30,10 @@ public class Archers : MonoBehaviour {
 
     private void GameManager_GameStateChanged(object sender, GameManager.GameStateChangedArgs e)
     {
-        if(GameManager.Instance.state == GameManager.GameState.GAMEOVER)
+        if(GameManager.Instance.state != GameManager.GameState.PLAYING)
         {
             StopLaunching();
-        } else if(GameManager.Instance.state == GameManager.GameState.PLAYING)
+        } else 
         {
             StartLaunching();
         }

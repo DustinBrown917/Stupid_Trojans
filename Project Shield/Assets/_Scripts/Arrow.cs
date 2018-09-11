@@ -9,6 +9,11 @@ public class Arrow : MonoBehaviour {
     private bool isFlying = true;
     private SpriteRenderer spriteRenderer;
     private TrailRenderer trailRenderer;
+    private AudioSource audioSource;
+
+    [SerializeField]
+    private AudioClip blockedSound;
+
 
     public static List<Arrow> Arrows = new List<Arrow>();
 
@@ -16,8 +21,10 @@ public class Arrow : MonoBehaviour {
     {
         rb2d = GetComponent<Rigidbody2D>();
         col2d = GetComponent<Collider2D>();
+        audioSource = GetComponent<AudioSource>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         trailRenderer = GetComponentInChildren<TrailRenderer>();
+        
     }
 
     // Use this for initialization
@@ -36,6 +43,12 @@ public class Arrow : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if(collision.gameObject.layer == 10)
+        {
+            audioSource.clip = blockedSound;
+            audioSource.Play();
+        }
+        
         rb2d.isKinematic = true;
         col2d.enabled = false;
         isFlying = false;

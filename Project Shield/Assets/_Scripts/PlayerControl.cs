@@ -55,7 +55,7 @@ public class PlayerControl : MonoBehaviour {
             {
                 newHighScorePanel.SetActive(true);
             }
-        }
+        } 
     }
 
     /// <summary>

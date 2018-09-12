@@ -19,10 +19,16 @@ public class Archers : MonoBehaviour {
     [SerializeField]
     private float timeBetweenLaunches = 3f;
 
+    private AudioSource audioSource;
     private Coroutine cr_LaunchSequence = null;
 
-	// Use this for initialization
-	void Start () {
+    private void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
+
+    // Use this for initialization
+    void Start () {
         Instance = this;
 
         GameManager.Instance.GameStateChanged += GameManager_GameStateChanged;
@@ -70,7 +76,7 @@ public class Archers : MonoBehaviour {
             rb2d.AddForce(launchForce);
             c++;
         }
-
+        audioSource.Play();
     }
 
     private GameObject GetProjectile()

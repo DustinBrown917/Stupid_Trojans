@@ -5,6 +5,8 @@ using UnityEngine.Audio;
 
 public class MusicManager : MonoBehaviour {
 
+    public static MusicManager Instance { get; private set; }
+
     [SerializeField]
     private AudioClip menuMusic;
     [SerializeField]
@@ -26,6 +28,7 @@ public class MusicManager : MonoBehaviour {
 
     private void Awake()
     {
+        Instance = this;
         audioSource = GetComponent<AudioSource>();
         
     }
@@ -101,6 +104,57 @@ public class MusicManager : MonoBehaviour {
         {
             masterMixer.SetFloat(sfxVolString, PlayerPrefs.GetFloat(sfxVolString));
         }
+    }
+
+    public float GetMasterVolFloat()
+    {
+        float vol;
+        masterMixer.GetFloat(masterVolString, out vol);
+
+        return vol;
+    }
+
+    public float GetMasterVolFactor()
+    {
+        float vol;
+        masterMixer.GetFloat(masterVolString, out vol);
+
+        float factor = (vol - minVol) / (maxVol - minVol);
+        return factor;
+    }
+
+    public float GetMusicVolFloat()
+    {
+        float vol;
+        masterMixer.GetFloat(musicVolString, out vol);
+
+        return vol;
+    }
+
+    public float GetMusicVolFactor()
+    {
+        float vol;
+        masterMixer.GetFloat(musicVolString, out vol);
+
+        float factor = (vol - minVol) / (maxVol - minVol);
+        return factor;
+    }
+
+    public float GetSfxVolFloat()
+    {
+        float vol;
+        masterMixer.GetFloat(sfxVolString, out vol);
+
+        return vol;
+    }
+
+    public float GetSfxVolFactor()
+    {
+        float vol;
+        masterMixer.GetFloat(sfxVolString, out vol);
+
+        float factor = (vol - minVol) / (maxVol - minVol);
+        return factor;
     }
 
 

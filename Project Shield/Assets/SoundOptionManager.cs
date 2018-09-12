@@ -23,12 +23,9 @@ public class SoundOptionManager : MonoBehaviour {
 
     private void OnEnable()
     {
-        float master;
-        float music;
-        float sfx;
-;
-
-
+        masterSlider.value = MusicManager.Instance.GetMasterVolFactor();
+        musicSlider.value = MusicManager.Instance.GetMusicVolFactor();
+        sfxSlider.value = MusicManager.Instance.GetSfxVolFactor();
     }
 
     public void PlayTestAudio()

@@ -226,7 +226,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitSounds:
-  - {fileID: 8300000, guid: 08230c3d519274c41b212c2e8b791347, type: 3}
+  - {fileID: 8300000, guid: 7d883024437042448b05d0580c3ffe85, type: 3}
+  - {fileID: 8300000, guid: 7b0a64af6d1f782459cb849baa26082a, type: 3}
+  - {fileID: 8300000, guid: eaacc8cc6af5bc04f8855164ab637a19, type: 3}
+  - {fileID: 8300000, guid: 51eb85678ac42fb4286313e496a9695e, type: 3}
+  - {fileID: 8300000, guid: ad477d30bc13f23438404196637dd578, type: 3}
+  - {fileID: 8300000, guid: 474c8f7d05532f74da6625efb85a08b9, type: 3}
   speed: 1
 --- !u!212 &212328059016591608
 SpriteRenderer:

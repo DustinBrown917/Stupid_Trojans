@@ -11,6 +11,8 @@ public class Troop : MonoBehaviour {
     [SerializeField]
     private AudioClip[] hitSounds;
 
+    private Animator animator;
+
     public static List<Troop> Troops = new List<Troop>();
 
     private Coroutine fading = null;
@@ -23,8 +25,14 @@ public class Troop : MonoBehaviour {
     private void Awake()
     {
         rb2d = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+    }
+
+    private void OnEnable()
+    {
+        animator.Play("run");
     }
 
     // Use this for initialization
@@ -76,6 +84,7 @@ public class Troop : MonoBehaviour {
     {
         if (!isAlive) { return; }
         isAlive = false;
+        animator.Play("death_0");
         audioSource.clip = hitSounds[UnityEngine.Random.Range(0, hitSounds.Length)];
         audioSource.Play();
         rb2d.AddForce(new Vector2(-10f, 50f));

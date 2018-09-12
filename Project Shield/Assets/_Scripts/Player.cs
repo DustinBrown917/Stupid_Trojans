@@ -18,8 +18,12 @@ public class Player : MonoBehaviour {
     [SerializeField]
     private Vector2 shieldThrowForce;
 
+    private Animator animator;
+    private bool isRunning = false;
+
     private void Awake()
     {
+        animator = GetComponent<Animator>();
         rb2d = GetComponent<Rigidbody2D>();
     }
 
@@ -43,6 +47,11 @@ public class Player : MonoBehaviour {
             }
             
             rb2d.velocity = translationVector;
+            if (!isRunning)
+            {
+                animator.Play("run");
+            }
+            isRunning = true;
 
         } else if (Input.GetKey(KeyCode.D))
         {
@@ -52,6 +61,8 @@ public class Player : MonoBehaviour {
             }
 
             rb2d.velocity = translationVector;
+            animator.Play("run");
+            isRunning = true;
         }
 
         if(Input.GetKeyDown(KeyCode.S) && !shieldUmbrella.activeSelf)
@@ -67,7 +78,14 @@ public class Player : MonoBehaviour {
         if(Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D))
         {
             translationVector = new Vector2();
+            if (isRunning)
+            {
+                animator.Play("idle");
+            }
+            isRunning = false;
         }
+
+        
 
 	}
 

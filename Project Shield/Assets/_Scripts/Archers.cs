@@ -21,10 +21,13 @@ public class Archers : MonoBehaviour {
 
     private AudioSource audioSource;
     private Coroutine cr_LaunchSequence = null;
+    private Animator animator;
+    private WaitForSeconds shotAnimationDelay = new WaitForSeconds(0.4f);
 
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
+        animator = GetComponent<Animator>();
     }
 
     // Use this for initialization
@@ -45,11 +48,6 @@ public class Archers : MonoBehaviour {
         }
     }
 
-    // Update is called once per frame
-    void Update () {
-		
-	}
-
     public void StartLaunching()
     {
         StopLaunching();
@@ -69,7 +67,7 @@ public class Archers : MonoBehaviour {
     {
         int numOfArrows = (int)((Time.time - GameManager.Instance.LevelStartTime) / difficultyIncrement) + baseNumberOfArrows;
         int c = 0;
-        while(c < numOfArrows)
+        while (c < numOfArrows)
         {
             Rigidbody2D rb2d = GetProjectile().GetComponent<Rigidbody2D>();
             Vector2 launchForce = new Vector2(UnityEngine.Random.Range(minLaunchForce.x, maxLaunchForce.x), UnityEngine.Random.Range(minLaunchForce.y, maxLaunchForce.y));
@@ -110,6 +108,8 @@ public class Archers : MonoBehaviour {
             t -= Time.deltaTime;
             yield return null;
         }
+        animator.Play("shoot");
+        yield return shotAnimationDelay;
         LaunchProjectile();
 
         cr_LaunchSequence = StartCoroutine(LaunchSequence());

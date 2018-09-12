@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 61369286572644218}
   - component: {fileID: 114599375789664610}
   - component: {fileID: 82200970599905534}
+  - component: {fileID: 95483364845553676}
   m_Layer: 11
   m_Name: Troop
   m_TagString: Untagged
@@ -214,6 +215,24 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!95 &95483364845553676
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1193633676046628}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0ddb224e2d97d264aaaf8a2311072d31, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &114599375789664610
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -226,12 +245,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitSounds:
-  - {fileID: 8300000, guid: 7d883024437042448b05d0580c3ffe85, type: 3}
   - {fileID: 8300000, guid: 7b0a64af6d1f782459cb849baa26082a, type: 3}
   - {fileID: 8300000, guid: eaacc8cc6af5bc04f8855164ab637a19, type: 3}
   - {fileID: 8300000, guid: 51eb85678ac42fb4286313e496a9695e, type: 3}
   - {fileID: 8300000, guid: ad477d30bc13f23438404196637dd578, type: 3}
   - {fileID: 8300000, guid: 474c8f7d05532f74da6625efb85a08b9, type: 3}
+  - {fileID: 8300000, guid: 7d883024437042448b05d0580c3ffe85, type: 3}
   speed: 1
 --- !u!212 &212328059016591608
 SpriteRenderer:

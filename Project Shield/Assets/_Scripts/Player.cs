@@ -37,7 +37,10 @@ public class Player : MonoBehaviour {
     // Update is called once per frame
     void Update() {
 
-        if (GameManager.Instance.state != GameManager.GameState.PLAYING || GameManager.Instance.Paused) { return; }
+        if (GameManager.Instance.state != GameManager.GameState.PLAYING || GameManager.Instance.Paused) {
+            animator.Play("idle");
+            return;
+        }
 
         if (Input.GetKey(KeyCode.A))
         {

@@ -87,8 +87,7 @@ public class Troop : MonoBehaviour {
         animator.Play("death_0");
         audioSource.clip = hitSounds[UnityEngine.Random.Range(0, hitSounds.Length)];
         audioSource.Play();
-        rb2d.AddForce(new Vector2(-10f, 50f));
-        rb2d.angularVelocity = -180f;
+        rb2d.AddForce(new Vector2(0, 10f));
 
         if (gameObject.activeSelf) { fading = StartCoroutine(FadeThenDestroy(5)); }
         

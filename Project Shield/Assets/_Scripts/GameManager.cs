@@ -34,15 +34,6 @@ public class GameManager : MonoBehaviour {
         state = GameState.START_SCREEN;
     }
 
-    // Use this for initialization
-    void Start () {
-        
-	}
-	
-	// Update is called once per frame
-	void Update () {
-
-	}
 
     public void ChangeGameState(GameState newState)
     {
@@ -72,6 +63,7 @@ public class GameManager : MonoBehaviour {
         {
             BugLog.Instance.gameObject.SetActive(true);
             BugLog.Instance.ShowException(e);
+            throw e;
         }
 
     }

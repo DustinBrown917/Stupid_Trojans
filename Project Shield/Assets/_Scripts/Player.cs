@@ -21,6 +21,7 @@ public class Player : MonoBehaviour {
     private Animator animator;
     private bool isRunning = false;
 
+
     private void Awake()
     {
         animator = GetComponent<Animator>();

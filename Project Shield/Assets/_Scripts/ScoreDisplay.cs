@@ -27,7 +27,7 @@ public class ScoreDisplay : MonoBehaviour {
 
     private void UpdateScoreLabel(int score)
     {
-        scoreLabel.text = score.ToString();
+        scoreLabel.text = "X " + score.ToString();
     }
 
 

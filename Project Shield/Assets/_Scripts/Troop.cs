@@ -22,6 +22,8 @@ public class Troop : MonoBehaviour {
 
     private Vector2 speedVector = new Vector2();
 
+    private string deathAnim = "death_0";
+
     private void Awake()
     {
         rb2d = GetComponent<Rigidbody2D>();
@@ -45,6 +47,7 @@ public class Troop : MonoBehaviour {
     {
         if (e.newState == GameManager.GameState.GAMEOVER)
         {
+            deathAnim = "death_0";
             Kill();
         }
         else if (e.newState == GameManager.GameState.START_SCREEN)
@@ -72,9 +75,18 @@ public class Troop : MonoBehaviour {
     {
         if(collision.gameObject.tag == "Projectile" && fading == null)
         {
+            if(collision.gameObject.layer == 17)
+            {
+                deathAnim = "death_splat";
+            } else
+            {
+                deathAnim = "death_0";
+            }
+            
             Kill();
 
-        } else if(collision.gameObject.tag == "Gate")
+        } 
+        else if(collision.gameObject.tag == "Gate")
         {
             Succeed();
         }
@@ -84,10 +96,18 @@ public class Troop : MonoBehaviour {
     {
         if (!isAlive) { return; }
         isAlive = false;
-        animator.Play("death_0");
+        animator.Play(deathAnim);
         audioSource.clip = hitSounds[UnityEngine.Random.Range(0, hitSounds.Length)];
         audioSource.Play();
-        rb2d.AddForce(new Vector2(-10, 30f));
+        if(deathAnim == "death_splat") // ugh. String literals. If only I had more time.
+        {
+            rb2d.velocity = new Vector2();
+        }
+        else
+        {
+            rb2d.AddForce(new Vector2(-10, 30f));
+        }
+        
 
         if (gameObject.activeSelf) { fading = StartCoroutine(FadeThenDestroy(5)); }
         

@@ -8,6 +8,8 @@ TagManager:
   - Ground
   - Projectile
   - Gate
+  - Barrier
+  - Shredder
   layers:
   - Default
   - TransparentFX
@@ -25,8 +27,8 @@ TagManager:
   - DeadTroop
   - Gate
   - Score
-  - 
-  - 
+  - Shredder
+  - Rocko
   - 
   - 
   - 

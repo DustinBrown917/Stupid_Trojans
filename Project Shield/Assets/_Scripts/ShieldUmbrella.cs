@@ -16,6 +16,7 @@ public class ShieldUmbrella : MonoBehaviour {
     private Color defaultColor;
     private bool isDefaultColor = true;
     private Rigidbody2D rb2d;
+    private AudioSource audioSource;
 
     private SpriteRenderer spriteRenderer;
 
@@ -24,6 +25,7 @@ public class ShieldUmbrella : MonoBehaviour {
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         rb2d = GetComponent<Rigidbody2D>();
         defaultColor = spriteRenderer.color;
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void OnEnable()
@@ -31,6 +33,7 @@ public class ShieldUmbrella : MonoBehaviour {
         spriteRenderer.color = defaultColor;
         isDefaultColor = true;
         StartCoroutine(KillTimer());
+        audioSource.Play();
     }
 
     

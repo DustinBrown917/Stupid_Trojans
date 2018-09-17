@@ -14,16 +14,20 @@ public class ProjectileShield : MonoBehaviour {
 
     private Coroutine cr_Fading = null;
 
+    private AudioSource audioSource;
+
     private void Awake()
     {
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         defaultColor = spriteRenderer.color;
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void OnEnable()
     {
         transform.rotation = new Quaternion();
         spriteRenderer.color = defaultColor;
+        audioSource.Play();
     }
 
     // Use this for initialization

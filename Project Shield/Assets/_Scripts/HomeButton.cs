@@ -10,10 +10,18 @@ public class HomeButton : MonoBehaviour {
     [SerializeField]
     private GameObject homeButton;
 
+    /********************************************************************************************/
+    /************************************* UNITY BEHAVIOURS *************************************/
+    /********************************************************************************************/
+
     private void Start()
     {
         GameManager.Instance.GameStateChanged += GameManager_GameStateChanged;
     }
+
+    /********************************************************************************************/
+    /************************************* EVENT LISTENERS **************************************/
+    /********************************************************************************************/
 
     private void GameManager_GameStateChanged(object sender, GameManager.GameStateChangedArgs e)
     {
@@ -26,6 +34,13 @@ public class HomeButton : MonoBehaviour {
         }
     }
 
+    /********************************************************************************************/
+    /**************************************** BEHAVIOURS ****************************************/
+    /********************************************************************************************/
+
+    /// <summary>
+    /// Display the GoHomeMenu.
+    /// </summary>
     public void ShowHomeMenu()
     {
         GameManager.Instance.PauseGame();

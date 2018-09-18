@@ -36,7 +36,7 @@ public class PlayerControl : MonoBehaviour {
     }
 
     /********************************************************************************************/
-    /**************************************** BEHAVIOURS ****************************************/
+    /************************************* EVENT LISTENERS **************************************/
     /********************************************************************************************/
 
     /// <summary>
@@ -49,14 +49,19 @@ public class PlayerControl : MonoBehaviour {
         if (e.newState == GameManager.GameState.PLAYING)
         {
             SetScore(0);
-        } else if(e.newState == GameManager.GameState.GAMEOVER)
+        }
+        else if (e.newState == GameManager.GameState.GAMEOVER)
         {
-            if(Score > HighScoreManager.GetLowestHighScore().score || HighScoreManager.NumOfHighScores < HighScoreManager.MaxNumOfHighScores)
+            if (Score > HighScoreManager.GetLowestHighScore().score || HighScoreManager.NumOfHighScores < HighScoreManager.MaxNumOfHighScores)
             {
                 newHighScorePanel.SetActive(true);
             }
-        } 
+        }
     }
+
+    /********************************************************************************************/
+    /**************************************** BEHAVIOURS ****************************************/
+    /********************************************************************************************/
 
     /// <summary>
     /// Adds byAmount to score. Can be negative.
@@ -91,6 +96,9 @@ public class PlayerControl : MonoBehaviour {
     /****************************************** EVENTS ******************************************/
     /********************************************************************************************/
 
+    /// <summary>
+    /// Called when the score changes.
+    /// </summary>
     #region ScoreChanged Event
     public event EventHandler<ScoreChangedArgs> ScoreChanged;
 
@@ -111,7 +119,9 @@ public class PlayerControl : MonoBehaviour {
     }
     #endregion
 
-
+    /// <summary>
+    /// Called when a new HighScore is achieved.
+    /// </summary>
     #region NewHighScore Event
     public event EventHandler<NewHighScoreArgs> NewHighScore;
 

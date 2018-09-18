@@ -11,8 +11,11 @@ public class HighScoreScrollView : MonoBehaviour {
 
     private List<HighScoreDisplay> highScoreDisplays = new List<HighScoreDisplay>();
 
-	// Use this for initialization
-	void Start () {
+    /********************************************************************************************/
+    /************************************* UNITY BEHAVIOURS *************************************/
+    /********************************************************************************************/
+
+    void Start () {
 		for(int i = 0; i < HighScoreManager.MaxNumOfHighScores; i++)
         {
             GameObject go = Instantiate(highScoreDisplayObject, content);
@@ -24,20 +27,33 @@ public class HighScoreScrollView : MonoBehaviour {
         UpdateScores();
 	}
 
+    /********************************************************************************************/
+    /************************************* EVENT LISTENERS **************************************/
+    /********************************************************************************************/
+
     private void HighScoreManager_NewHighScore(object sender, HighScoreManager.NewHighScoreArgs e)
     {
         UpdateScores();
     }
 
+    /********************************************************************************************/
+    /**************************************** BEHAVIOURS ****************************************/
+    /********************************************************************************************/
+
+    /// <summary>
+    /// Retrieve high scores from HighScoreManager and update to displayed list.
+    /// </summary>
     private void UpdateScores()
     {
-        
         for(int i = 0; i < highScoreDisplays.Count; i++)
         {
             highScoreDisplays[i].SetHighScore(HighScoreManager.GetHighScoreAt(i));
         }
     }
 
+    /// <summary>
+    /// Remove all high scores from the list.
+    /// </summary>
     public void DeleteHighScores()
     {
         HighScoreManager.ClearHighScores();

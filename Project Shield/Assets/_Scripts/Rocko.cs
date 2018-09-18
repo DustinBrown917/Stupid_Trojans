@@ -19,6 +19,10 @@ public class Rocko : MonoBehaviour {
 
     private Coroutine cr_fading = null;
 
+    /********************************************************************************************/
+    /************************************* UNITY BEHAVIOURS *************************************/
+    /********************************************************************************************/
+
     private void Awake()
     {
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
@@ -32,13 +36,6 @@ public class Rocko : MonoBehaviour {
     {
         ResetRocko();
     }
-
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -63,12 +60,22 @@ public class Rocko : MonoBehaviour {
         }
     }
 
+    /********************************************************************************************/
+    /**************************************** BEHAVIOURS ****************************************/
+    /********************************************************************************************/
+
+    /// <summary>
+    /// Begin the process of fading the Rocko out.
+    /// </summary>
     private void StartFade()
     {
         StopFade();
         cr_fading = StartCoroutine(FadeThenDisable());
     }
 
+    /// <summary>
+    /// Stop all fading Coroutines on the Rocko.
+    /// </summary>
     private void StopFade()
     {
         if (cr_fading != null)
@@ -78,8 +85,10 @@ public class Rocko : MonoBehaviour {
         }
     }
 
-
-
+    /// <summary>
+    /// Coroutine that will fade the Rocko's alpha to 0, then disable it.
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator FadeThenDisable()
     {
         Color newCol = spriteRenderer.color;
@@ -98,6 +107,9 @@ public class Rocko : MonoBehaviour {
         gameObject.SetActive(false);
     }
 
+    /// <summary>
+    /// Resets the Rocko to its initialized state.
+    /// </summary>
     private void ResetRocko()
     {
         spriteRenderer.color = initialColor;

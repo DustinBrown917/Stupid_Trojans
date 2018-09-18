@@ -24,15 +24,22 @@ public class Gate : MonoBehaviour {
 
     private Queue<GameObject> plusOneTextPool = new Queue<GameObject>();
 
+    /********************************************************************************************/
+    /************************************* UNITY BEHAVIOURS *************************************/
+    /********************************************************************************************/
+
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
     }
 
-    // Use this for initialization
     void Start () {
         PlayerControl.Instance.ScoreChanged += PlayerControl_ScoreChanged;
 	}
+
+    /********************************************************************************************/
+    /************************************* EVENT LISTENERS **************************************/
+    /********************************************************************************************/
 
     private void PlayerControl_ScoreChanged(object sender, PlayerControl.ScoreChangedArgs e)
     {
@@ -43,6 +50,13 @@ public class Gate : MonoBehaviour {
         
     }
 
+    /********************************************************************************************/
+    /**************************************** BEHAVIOURS ****************************************/
+    /********************************************************************************************/
+
+    /// <summary>
+    /// Place the PlusOneText in the game.
+    /// </summary>
     private void CreatePlusOneText()
     {
         GameObject floatingText = GetPlusOneText();
@@ -53,14 +67,18 @@ public class Gate : MonoBehaviour {
         
     }
 
+    /// <summary>
+    /// Get a PlusOneText GameObject.
+    /// </summary>
+    /// <returns>A PlusOneText GameObject.</returns>
     private GameObject GetPlusOneText()
     {
         GameObject go;
-        if(plusOneTextPool.Count > 0)
+        if(plusOneTextPool.Count > 0) //If there are texts in the pool, take from there...
         {
             go = plusOneTextPool.Dequeue();
 
-        } else
+        } else //...else instantiate one.
         {
             go = Instantiate(plusOneTextObject);
         }
@@ -70,6 +88,10 @@ public class Gate : MonoBehaviour {
         return go;
     }
 
+    /// <summary>
+    /// Reset the PlusOneText to its initialized state.
+    /// </summary>
+    /// <param name="go">The PlusOneText GameObject.</param>
     private void ResetPlusOneText(GameObject go)
     {
         go.GetComponentInChildren<Text>().color = textColor;
@@ -78,8 +100,12 @@ public class Gate : MonoBehaviour {
         go.SetActive(true);
     }
 
-
-
+    /// <summary>
+    /// Coroutine to launch the text downwards, then fade it to 0 alpha after a delay.
+    /// </summary>
+    /// <param name="go">The PlusOneText GameObject.</param>
+    /// <param name="time">The duration of the fade.</param>
+    /// <returns></returns>
     private IEnumerator LaunchScoreThenFade(GameObject go, float time)
     {
 
@@ -90,11 +116,13 @@ public class Gate : MonoBehaviour {
         Color col = text.color;
         Rigidbody2D rb2d = go.GetComponent<Rigidbody2D>();
 
+        //Launch the text.
         Vector2 launchForce = new Vector2(UnityEngine.Random.Range(minScoreForce.x, maxScoreForce.x), UnityEngine.Random.Range(minScoreForce.y, maxScoreForce.y));
 
         rb2d.AddForce(launchForce);
         rb2d.AddTorque(UnityEngine.Random.Range(-variableScoreTorque, variableScoreTorque));
 
+        //Wait for a moment before fading.
         yield return new WaitForSeconds(delayBeforeFade);
 
         while (t > 0)
@@ -107,7 +135,7 @@ public class Gate : MonoBehaviour {
         }
 
         go.SetActive(false);
-        plusOneTextPool.Enqueue(go);
+        plusOneTextPool.Enqueue(go); //Pool the text.
 
     }
 }

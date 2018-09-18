@@ -7,8 +7,10 @@ public class GameOverScreen : MonoBehaviour {
 
     [SerializeField]
     private Text bigText;
-    [SerializeField]
-    private Text littleText;
+
+    /********************************************************************************************/
+    /************************************* UNITY BEHAVIOURS *************************************/
+    /********************************************************************************************/
 
     private void OnEnable()
     {
@@ -21,13 +23,13 @@ public class GameOverScreen : MonoBehaviour {
         }
     }
 
-    private IEnumerator clickDelay()
-    {
-        yield return new WaitForSeconds(1f);
-        littleText.enabled = true;
-    }
+    /********************************************************************************************/
+    /**************************************** BEHAVIOURS ****************************************/
+    /********************************************************************************************/
 
-
+    /// <summary>
+    /// Change the game's GameState to PLAYING.
+    /// </summary>
     public void StartGame()
     {
         GameManager.Instance.ChangeGameState(GameManager.GameState.PLAYING);

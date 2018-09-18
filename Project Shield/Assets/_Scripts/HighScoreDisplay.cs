@@ -10,7 +10,14 @@ public class HighScoreDisplay : MonoBehaviour {
     [SerializeField]
     private Text highScoreNumber;
 
+    /********************************************************************************************/
+    /**************************************** BEHAVIOURS ****************************************/
+    /********************************************************************************************/
 
+    /// <summary>
+    /// Set's the text of the display to reflect a score.
+    /// </summary>
+    /// <param name="highScore">The score that should be shown.</param>
     public void SetHighScore(HighScore highScore)
     {
         if(highScore == null)

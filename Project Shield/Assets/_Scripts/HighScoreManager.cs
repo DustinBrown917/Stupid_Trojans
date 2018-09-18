@@ -13,15 +13,26 @@ public static class HighScoreManager {
 
     private static string saveKey = "highScoresJson";
 
+    /********************************************************************************************/
+    /*************************************** CONSTRUCTORS ***************************************/
+    /********************************************************************************************/
 
     static HighScoreManager()
     {
         LoadHighScores();
     }
 
+    /********************************************************************************************/
+    /**************************************** BEHAVIOURS ****************************************/
+    /********************************************************************************************/
+
+    /// <summary>
+    /// Adds a high score to the list. Will not add if it is not higher than the lowest high score.
+    /// </summary>
+    /// <param name="highScore">The score to add to the list.</param>
     public static void AddHighScore( HighScore highScore )
     {
-        if(highScores.Count == 0)
+        if(highScores.Count == 0) //Any score can be added if no high scores exist.
         {
             highScores.Insert(0, highScore);
             NewHighScoreArgs args = new NewHighScoreArgs() { newScore = highScore.score };
@@ -29,7 +40,7 @@ public static class HighScoreManager {
         }
         else
         {
-            for (int i = 0; i < highScores.Count; i++)
+            for (int i = 0; i < highScores.Count; i++) //Find the appropriate ordered position for the new score.
             {
                 if (highScore.score > highScores[i].score)
                 {
@@ -46,7 +57,7 @@ public static class HighScoreManager {
                     return;
                 }
             }
-            if(highScores.Count < _maxNumOfHighScores)
+            if(highScores.Count < _maxNumOfHighScores)//Any high score can be added if the list is not full.
             {
                 highScores.Add(highScore);
                 NewHighScoreArgs args = new NewHighScoreArgs() { newScore = highScore.score };
@@ -55,6 +66,10 @@ public static class HighScoreManager {
         }
     }
 
+    /// <summary>
+    /// Find the lowest score of the stores high scores.
+    /// </summary>
+    /// <returns>The HighScore with the lowest score.</returns>
     public static HighScore GetLowestHighScore()
     {
         if(highScores.Count == 0)
@@ -67,6 +82,11 @@ public static class HighScoreManager {
         }       
     }
 
+    /// <summary>
+    /// Find the HighScore at a given index.
+    /// </summary>
+    /// <param name="index">The index to return.</param>
+    /// <returns>The HighScore at the specified index.</returns>
     public static HighScore GetHighScoreAt(int index)
     {
         if(index < 0 || index >= highScores.Count)
@@ -77,14 +97,20 @@ public static class HighScoreManager {
         return highScores[index];
     }
 
+    /// <summary>
+    /// Save the high score to PlayerPrefs.
+    /// </summary>
     public static void SaveHighScores()
     {
-        HighScoreWrapper wrapper = new HighScoreWrapper();
+        HighScoreWrapper wrapper = new HighScoreWrapper(); //Need to wrap the high sores because Lists cannot be serialized independently.
         wrapper.highScores = highScores.ToArray();
         string json = JsonUtility.ToJson(wrapper);
         PlayerPrefs.SetString(saveKey, json);
     }
 
+    /// <summary>
+    /// Load the high scores from PlayerPrefs.
+    /// </summary>
     public static void LoadHighScores()
     {
         try
@@ -112,6 +138,9 @@ public static class HighScoreManager {
 
     }
 
+    /// <summary>
+    /// Clear all records of HighScores.
+    /// </summary>
     public static void ClearHighScores()
     {
         PlayerPrefs.DeleteKey(saveKey);
@@ -120,8 +149,13 @@ public static class HighScoreManager {
 
 
 
+    /********************************************************************************************/
+    /****************************************** EVENTS ******************************************/
+    /********************************************************************************************/
 
-
+    /// <summary>
+    /// Called when a new high score is added.
+    /// </summary>
     #region NewHighScore Event
     public static event EventHandler<NewHighScoreArgs> NewHighScore;
 
@@ -144,6 +178,9 @@ public static class HighScoreManager {
     #endregion
 }
 
+/// <summary>
+/// Container for HighScore data.
+/// </summary>
 [Serializable]
 public class HighScore
 {
@@ -158,6 +195,9 @@ public class HighScore
     }
 }
 
+/// <summary>
+/// Wrapper so that the HighScore list can be serialized to JSON.
+/// </summary>
 [Serializable]
 public class HighScoreWrapper
 {

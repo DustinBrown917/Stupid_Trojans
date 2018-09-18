@@ -22,6 +22,11 @@ public class GameManager : MonoBehaviour {
     [SerializeField]
     private int _deathsAllowed = 10;
 
+
+    /********************************************************************************************/
+    /************************************* UNITY BEHAVIOURS *************************************/
+    /********************************************************************************************/
+
     private void Awake()
     {
         if(_instance != null && _instance != this)
@@ -34,7 +39,14 @@ public class GameManager : MonoBehaviour {
         state = GameState.START_SCREEN;
     }
 
+    /********************************************************************************************/
+    /**************************************** BEHAVIOURS ****************************************/
+    /********************************************************************************************/
 
+    /// <summary>
+    /// Changes the GameState of the game.
+    /// </summary>
+    /// <param name="newState">The GameState to change to.</param>
     public void ChangeGameState(GameState newState)
     {
         if(newState == state) { return; }
@@ -59,7 +71,7 @@ public class GameManager : MonoBehaviour {
             }
             UnpauseGame();         
         }
-        catch(Exception e)
+        catch(Exception e) // Push any errors to the BugLog.
         {
             BugLog.Instance.gameObject.SetActive(true);
             BugLog.Instance.ShowException(e);
@@ -68,6 +80,9 @@ public class GameManager : MonoBehaviour {
 
     }
 
+    /// <summary>
+    /// Add a death to the _deaths score.
+    /// </summary>
     public void AddDeath()
     {
         if(_deaths >= _deathsAllowed) { return; }
@@ -85,6 +100,10 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Set the death score to a specified number.
+    /// </summary>
+    /// <param name="deaths">The number to set deaths to.</param>
     public void SetDeaths(int deaths)
     {
         DeathsChangedArgs args = new DeathsChangedArgs();
@@ -95,11 +114,17 @@ public class GameManager : MonoBehaviour {
         OnDeathsChanged(args);
     }
 
+    /// <summary>
+    /// Quit the application.
+    /// </summary>
     public void QuitGame()
     {
         Application.Quit();
     }
 
+    /// <summary>
+    /// Pause the game.
+    /// </summary>
     public void PauseGame()
     {
         if (Paused) { return; }
@@ -108,6 +133,9 @@ public class GameManager : MonoBehaviour {
         OnPauseStateChanged();
     }
 
+    /// <summary>
+    /// Unpause the game. C'mon, you could have figured that one out on your own.
+    /// </summary>
     public void UnpauseGame()
     {
         if(!Paused) { return; }
@@ -117,13 +145,14 @@ public class GameManager : MonoBehaviour {
     }
 
 
-
-
-
     /********************************************************************************************/
     /****************************************** EVENTS ******************************************/
     /********************************************************************************************/
 
+    /// <summary>
+    /// Called when the GameState of the game changes.
+    /// </summary>
+    #region GameStateChanged Event
     public event EventHandler<GameStateChangedArgs> GameStateChanged;
 
     public class GameStateChangedArgs : EventArgs
@@ -141,8 +170,12 @@ public class GameManager : MonoBehaviour {
             handler(this, args);
         }
     }
+    #endregion
 
-
+    /// <summary>
+    /// Called when the death score changes.
+    /// </summary>
+    #region DeathsChanges Event.
     public event EventHandler<DeathsChangedArgs> DeathsChanged;
 
     public class DeathsChangedArgs : EventArgs
@@ -161,6 +194,12 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    #endregion
+
+    /// <summary>
+    /// Called when the game switches between paused and unpaused.
+    /// </summary>
+    #region PauseStateChanged Event.
     public event EventHandler PauseStateChanged;
 
     private void OnPauseStateChanged()
@@ -172,6 +211,8 @@ public class GameManager : MonoBehaviour {
             handler(this, EventArgs.Empty);
         }
     }
+
+    #endregion
 
     /********************************************************************************************/
     /****************************************** ENUMS *******************************************/

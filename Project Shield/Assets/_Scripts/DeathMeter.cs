@@ -21,16 +21,49 @@ public class DeathMeter : MonoBehaviour {
 
     private int deathSymbolIndex;
 
+    /********************************************************************************************/
+    /************************************* UNITY BEHAVIOURS *************************************/
+    /********************************************************************************************/
 
-
-	// Use this for initialization
-	void Start () {
+    void Start () {
         GameManager.Instance.GameStateChanged += GameManager_GameStateChanged;
         GameManager.Instance.DeathsChanged += GameManager_DeathsChanged;
         InitializeDeathSymbols();
         wfs_deactivate = new WaitForSeconds(deactivateSymbolTime);
 	}
 
+    /********************************************************************************************/
+    /************************************* EVENT LISTENERS **************************************/
+    /********************************************************************************************/
+
+    private void GameManager_DeathsChanged(object sender, GameManager.DeathsChangedArgs e)
+    {
+        Debug.Log(e.newDeaths + " vs " + e.oldDeaths);
+        if (e.newDeaths > e.oldDeaths)
+        {
+            PopDeath();
+        }
+    }
+
+    private void GameManager_GameStateChanged(object sender, GameManager.GameStateChangedArgs e)
+    {
+        if (e.newState == GameManager.GameState.PLAYING)
+        {
+            if (deathSymbolRigidBodies.Length != GameManager.Instance.DeathsAllowed)
+            {
+                InitializeDeathSymbols();
+            }
+            ResetDeathSymbols();
+        }
+    }
+
+    /********************************************************************************************/
+    /**************************************** BEHAVIOURS ****************************************/
+    /********************************************************************************************/
+
+    /// <summary>
+    /// Create death symbols.
+    /// </summary>
     private void InitializeDeathSymbols()
     {
         deathSymbolRigidBodies = new Rigidbody2D[GameManager.Instance.DeathsAllowed];
@@ -41,6 +74,9 @@ public class DeathMeter : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Remove death symbols from physics simulation and lay them out at bottom of screen.
+    /// </summary>
     private void ResetDeathSymbols()
     {
         StopAllCoroutines();
@@ -57,27 +93,9 @@ public class DeathMeter : MonoBehaviour {
         }
     }
 
-    private void GameManager_DeathsChanged(object sender, GameManager.DeathsChangedArgs e)
-    {
-        Debug.Log(e.newDeaths + " vs " + e.oldDeaths);
-        if(e.newDeaths > e.oldDeaths)
-        {
-            PopDeath();
-        }
-    }
-
-    private void GameManager_GameStateChanged(object sender, GameManager.GameStateChangedArgs e)
-    {
-        if(e.newState == GameManager.GameState.PLAYING)
-        {
-            if(deathSymbolRigidBodies.Length != GameManager.Instance.DeathsAllowed)
-            {
-                InitializeDeathSymbols();
-            }
-            ResetDeathSymbols();
-        }
-    }
-
+    /// <summary>
+    /// Add the trailing death symbol to the physics simulation and pop it upwards with a small vertical force.
+    /// </summary>
     private void PopDeath()
     {
         Debug.Log("Popped");
@@ -88,6 +106,11 @@ public class DeathMeter : MonoBehaviour {
         if(deathSymbolIndex > 0) { deathSymbolIndex--; }
     }
     
+    /// <summary>
+    /// Coroutine to remove a death symbol from the physics simulation after a delay.
+    /// </summary>
+    /// <param name="rb2d">The death symbol to remove from physics simulation.</param>
+    /// <returns></returns>
     private IEnumerator DeactivateSymbolTimer(Rigidbody2D rb2d)
     {
         yield return wfs_deactivate;

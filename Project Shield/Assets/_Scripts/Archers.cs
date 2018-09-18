@@ -24,18 +24,26 @@ public class Archers : MonoBehaviour {
     private Animator animator;
     private WaitForSeconds shotAnimationDelay = new WaitForSeconds(0.4f);
 
+
+    /********************************************************************************************/
+    /************************************* UNITY BEHAVIOURS *************************************/
+    /********************************************************************************************/
+
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
     }
 
-    // Use this for initialization
     void Start () {
-        Instance = this;
+        Instance = this; //Singleton pattern...
 
         GameManager.Instance.GameStateChanged += GameManager_GameStateChanged;
 	}
+
+    /********************************************************************************************/
+    /************************************* EVENT LISTENERS **************************************/
+    /********************************************************************************************/
 
     private void GameManager_GameStateChanged(object sender, GameManager.GameStateChangedArgs e)
     {
@@ -48,12 +56,22 @@ public class Archers : MonoBehaviour {
         }
     }
 
+    /********************************************************************************************/
+    /**************************************** BEHAVIOURS ****************************************/
+    /********************************************************************************************/
+
+    /// <summary>
+    /// Start the repeating launch pattern.
+    /// </summary>
     public void StartLaunching()
     {
         StopLaunching();
         cr_LaunchSequence = StartCoroutine(LaunchSequence());
     }
 
+    /// <summary>
+    /// Stop the repeating lauch pattern.
+    /// </summary>
     public void StopLaunching()
     {
         if(cr_LaunchSequence != null)
@@ -63,6 +81,9 @@ public class Archers : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Launch projectiles.
+    /// </summary>
     private void LaunchProjectile()
     {
         int numOfArrows = (int)((Time.time - GameManager.Instance.LevelStartTime) / difficultyIncrement) + baseNumberOfArrows;
@@ -70,6 +91,7 @@ public class Archers : MonoBehaviour {
         while (c < numOfArrows)
         {
             Rigidbody2D rb2d = GetProjectile().GetComponent<Rigidbody2D>();
+            //Add random force to projectile.
             Vector2 launchForce = new Vector2(UnityEngine.Random.Range(minLaunchForce.x, maxLaunchForce.x), UnityEngine.Random.Range(minLaunchForce.y, maxLaunchForce.y));
             rb2d.AddForce(launchForce);
             c++;
@@ -77,14 +99,18 @@ public class Archers : MonoBehaviour {
         audioSource.Play();
     }
 
+    /// <summary>
+    /// Retrieve a projectile GameObject.
+    /// </summary>
+    /// <returns>A projectile GameObject.</returns>
     private GameObject GetProjectile()
     {
         GameObject go;
-        if(Arrow.Arrows.Count > 0)
+        if(Arrow.Arrows.Count > 0) //If there are Arrows in the pool, take from there...
         {
             go = Arrow.Arrows[0].gameObject;
             Arrow.Arrows.RemoveAt(0);
-        } else
+        } else //... otherwise instantiate a new one.
         {
             go = Instantiate(projectile);
         }
@@ -99,6 +125,10 @@ public class Archers : MonoBehaviour {
         return go;
     }
 
+    /// <summary>
+    /// Recurseive coroutine that will continually launch projectiles until explicitly stopped.
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator LaunchSequence()
     {
         float t = timeBetweenLaunches;

@@ -17,6 +17,10 @@ public class Arrow : MonoBehaviour {
 
     public static List<Arrow> Arrows = new List<Arrow>();
 
+    /********************************************************************************************/
+    /************************************* UNITY BEHAVIOURS *************************************/
+    /********************************************************************************************/
+
     private void Awake()
     {
         rb2d = GetComponent<Rigidbody2D>();
@@ -24,22 +28,21 @@ public class Arrow : MonoBehaviour {
         audioSource = GetComponent<AudioSource>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         trailRenderer = GetComponentInChildren<TrailRenderer>();
-        
     }
-
-    // Use this for initialization
-    void Start () {
-		
-	}
 	
-	// Update is called once per frame
 	void Update () {
         if (isFlying)
         {
-            transform.up = rb2d.velocity;
+            transform.up = rb2d.velocity; //Point arrow in direction of movement.
         }
-
 	}
+
+    private void OnDisable()
+    {
+        Color color = spriteRenderer.color;
+        color.a = 0;
+        spriteRenderer.color = color;
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -49,6 +52,7 @@ public class Arrow : MonoBehaviour {
             audioSource.Play();
         }
         
+        //Remove Arrow from physics sim and add as child of collided object.
         rb2d.isKinematic = true;
         col2d.enabled = false;
         isFlying = false;
@@ -58,9 +62,15 @@ public class Arrow : MonoBehaviour {
         transform.parent = collision.gameObject.transform;
 
         DisableTrail();
-
     }
 
+    /********************************************************************************************/
+    /**************************************** BEHAVIOURS ****************************************/
+    /********************************************************************************************/
+
+    /// <summary>
+    /// Return the Arrow to its initialized state.
+    /// </summary>
     public void Revert()
     {
         rb2d.isKinematic = false;
@@ -71,6 +81,9 @@ public class Arrow : MonoBehaviour {
         spriteRenderer.color = color;
     }
 
+    /// <summary>
+    /// Enable the Arrow's trail renderer component.
+    /// </summary>
     public void EnableTrail()
     {
         trailRenderer.enabled = true;
@@ -78,11 +91,19 @@ public class Arrow : MonoBehaviour {
 
     }
 
+    /// <summary>
+    /// Disable the Arrow's trail renderer component.
+    /// </summary>
     public void DisableTrail()
     {
         trailRenderer.enabled = false;
     }
 
+    /// <summary>
+    /// Fades the Arrow's alpha to 0 before disabling it.
+    /// </summary>
+    /// <param name="time">The length of time the fade should take.</param>
+    /// <returns></returns>
     private IEnumerator Fade(float time)
     {
         float t = time;
@@ -98,12 +119,4 @@ public class Arrow : MonoBehaviour {
         Arrows.Add(this);
         gameObject.SetActive(false);
     }
-
-    private void OnDisable()
-    {
-        Color color = spriteRenderer.color;
-        color.a = 0;
-        spriteRenderer.color = color;
-    }
-
 }

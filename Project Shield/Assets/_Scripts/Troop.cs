@@ -24,6 +24,10 @@ public class Troop : MonoBehaviour {
 
     private string deathAnim = "death_0";
 
+    /********************************************************************************************/
+    /************************************* UNITY BEHAVIOURS *************************************/
+    /********************************************************************************************/
+
     private void Awake()
     {
         rb2d = GetComponent<Rigidbody2D>();
@@ -37,11 +41,44 @@ public class Troop : MonoBehaviour {
         animator.Play("run");
     }
 
-    // Use this for initialization
     void Start () {
         speedVector.x = speed;
         GameManager.Instance.GameStateChanged += GameManager_GameStateChanged;
 	}
+
+    void Update()
+    {
+        if (isAlive)
+        {
+            rb2d.velocity = speedVector;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Projectile" && fading == null)
+        {
+            if (collision.gameObject.layer == 17) //If hit by Rocko
+            {
+                deathAnim = "death_splat";
+            }
+            else
+            {
+                deathAnim = "death_0";
+            }
+
+            Kill();
+
+        }
+        else if (collision.gameObject.tag == "Gate")
+        {
+            Succeed();
+        }
+    }
+
+    /********************************************************************************************/
+    /************************************* EVENT LISTENERS **************************************/
+    /********************************************************************************************/
 
     private void GameManager_GameStateChanged(object sender, GameManager.GameStateChangedArgs e)
     {
@@ -53,7 +90,7 @@ public class Troop : MonoBehaviour {
         else if (e.newState == GameManager.GameState.START_SCREEN)
         {
             Troops.Add(this);
-            if(fading != null)
+            if (fading != null)
             {
                 StopCoroutine(fading);
                 fading = null;
@@ -63,35 +100,13 @@ public class Troop : MonoBehaviour {
         }
     }
 
-    // Update is called once per frame
-    void Update () {
-        if (isAlive)
-        {
-            rb2d.velocity = speedVector;
-        }
-	}
+    /********************************************************************************************/
+    /**************************************** BEHAVIOURS ****************************************/
+    /********************************************************************************************/
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if(collision.gameObject.tag == "Projectile" && fading == null)
-        {
-            if(collision.gameObject.layer == 17)
-            {
-                deathAnim = "death_splat";
-            } else
-            {
-                deathAnim = "death_0";
-            }
-            
-            Kill();
-
-        } 
-        else if(collision.gameObject.tag == "Gate")
-        {
-            Succeed();
-        }
-    }
-
+    /// <summary>
+    /// Kill the troop.
+    /// </summary>
     private void Kill()
     {
         if (!isAlive) { return; }
@@ -117,6 +132,9 @@ public class Troop : MonoBehaviour {
         GameManager.Instance.AddDeath();
     }
 
+    /// <summary>
+    /// Handle the troop reaching the objective.
+    /// </summary>
     private void Succeed()
     {
         PlayerControl.Instance.IncrementScore(1);
@@ -124,6 +142,11 @@ public class Troop : MonoBehaviour {
         gameObject.SetActive(false);
     }
 
+    /// <summary>
+    /// Coroutine that fades the Troop's alpha to 0 then disables it.
+    /// </summary>
+    /// <param name="time"></param>
+    /// <returns></returns>
     private IEnumerator FadeThenDestroy(float time)
     {
         float t = time;
@@ -140,6 +163,9 @@ public class Troop : MonoBehaviour {
         gameObject.SetActive(false);
     }
 
+    /// <summary>
+    /// Returns the Troop to its initialized state.
+    /// </summary>
     public void Resurrect()
     {
         isAlive = true;

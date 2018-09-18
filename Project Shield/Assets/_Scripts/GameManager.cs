@@ -22,9 +22,13 @@ public class GameManager : MonoBehaviour {
     [SerializeField]
     private int _deathsAllowed = 10;
 
+    /********************************************************************************************/
+    /************************************* UNITY BEHAVIOURS *************************************/
+    /********************************************************************************************/
+
     private void Awake()
     {
-        if(_instance != null && _instance != this)
+        if(_instance != null && _instance != this) //Singleton pattern...
         {
             Destroy(_instance);
         }
@@ -34,7 +38,14 @@ public class GameManager : MonoBehaviour {
         state = GameState.START_SCREEN;
     }
 
+    /********************************************************************************************/
+    /**************************************** BEHAVIOURS ****************************************/
+    /********************************************************************************************/
 
+    /// <summary>
+    /// Change the GameState
+    /// </summary>
+    /// <param name="newState"></param>
     public void ChangeGameState(GameState newState)
     {
         if(newState == state) { return; }
@@ -59,7 +70,7 @@ public class GameManager : MonoBehaviour {
             }
             UnpauseGame();         
         }
-        catch(Exception e)
+        catch(Exception e) //Forward bugs to the BugLog
         {
             BugLog.Instance.gameObject.SetActive(true);
             BugLog.Instance.ShowException(e);
@@ -68,6 +79,9 @@ public class GameManager : MonoBehaviour {
 
     }
 
+    /// <summary>
+    /// Increase _deaths by 1.
+    /// </summary>
     public void AddDeath()
     {
         if(_deaths >= _deathsAllowed) { return; }
@@ -85,6 +99,10 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Set _deaths to a specified value.
+    /// </summary>
+    /// <param name="deaths">The number to set _deaths to.</param>
     public void SetDeaths(int deaths)
     {
         DeathsChangedArgs args = new DeathsChangedArgs();
@@ -95,11 +113,17 @@ public class GameManager : MonoBehaviour {
         OnDeathsChanged(args);
     }
 
+    /// <summary>
+    /// Close the application.
+    /// </summary>
     public void QuitGame()
     {
         Application.Quit();
     }
 
+    /// <summary>
+    /// Pause the game.
+    /// </summary>
     public void PauseGame()
     {
         if (Paused) { return; }
@@ -108,6 +132,9 @@ public class GameManager : MonoBehaviour {
         OnPauseStateChanged();
     }
 
+    /// <summary>
+    /// Unpause the game. C'mon, you could've figured that one out.
+    /// </summary>
     public void UnpauseGame()
     {
         if(!Paused) { return; }
@@ -117,13 +144,11 @@ public class GameManager : MonoBehaviour {
     }
 
 
-
-
-
     /********************************************************************************************/
     /****************************************** EVENTS ******************************************/
     /********************************************************************************************/
 
+    #region GameStateChanged Event.
     public event EventHandler<GameStateChangedArgs> GameStateChanged;
 
     public class GameStateChangedArgs : EventArgs
@@ -141,8 +166,10 @@ public class GameManager : MonoBehaviour {
             handler(this, args);
         }
     }
+    #endregion
 
 
+    #region DeathsChanged Event.
     public event EventHandler<DeathsChangedArgs> DeathsChanged;
 
     public class DeathsChangedArgs : EventArgs
@@ -161,6 +188,10 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    #endregion
+
+
+    #region PauseStateChanged Event.
     public event EventHandler PauseStateChanged;
 
     private void OnPauseStateChanged()
@@ -172,6 +203,9 @@ public class GameManager : MonoBehaviour {
             handler(this, EventArgs.Empty);
         }
     }
+
+    #endregion
+
 
     /********************************************************************************************/
     /****************************************** ENUMS *******************************************/

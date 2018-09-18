@@ -24,19 +24,32 @@ public class Archers : MonoBehaviour {
     private Animator animator;
     private WaitForSeconds shotAnimationDelay = new WaitForSeconds(0.4f);
 
+
+    /********************************************************************************************/
+    /************************************* UNITY BEHAVIOURS *************************************/
+    /********************************************************************************************/
+
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
     }
 
-    // Use this for initialization
     void Start () {
         Instance = this;
 
         GameManager.Instance.GameStateChanged += GameManager_GameStateChanged;
 	}
 
+    /********************************************************************************************/
+    /************************************* EVENT RESPONDERS *************************************/
+    /********************************************************************************************/
+
+    /// <summary>
+    /// Respond to GameState changes.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void GameManager_GameStateChanged(object sender, GameManager.GameStateChangedArgs e)
     {
         if(GameManager.Instance.state != GameManager.GameState.PLAYING)
@@ -48,12 +61,22 @@ public class Archers : MonoBehaviour {
         }
     }
 
+    /********************************************************************************************/
+    /**************************************** BEHAVIOURS ****************************************/
+    /********************************************************************************************/
+
+    /// <summary>
+    /// Begin the recursive launching pattern.
+    /// </summary>
     public void StartLaunching()
     {
         StopLaunching();
         cr_LaunchSequence = StartCoroutine(LaunchSequence());
     }
 
+    /// <summary>
+    /// Stop and dispose of launch sequence coroutines.
+    /// </summary>
     public void StopLaunching()
     {
         if(cr_LaunchSequence != null)
@@ -63,10 +86,15 @@ public class Archers : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Launch projectiles.
+    /// </summary>
     private void LaunchProjectile()
     {
+        //Get num of projectiles to launch
         int numOfArrows = (int)((Time.time - GameManager.Instance.LevelStartTime) / difficultyIncrement) + baseNumberOfArrows;
         int c = 0;
+        //Place each projectile and apply a random force.
         while (c < numOfArrows)
         {
             Rigidbody2D rb2d = GetProjectile().GetComponent<Rigidbody2D>();
@@ -77,14 +105,19 @@ public class Archers : MonoBehaviour {
         audioSource.Play();
     }
 
+    /// <summary>
+    /// Retrieve a projectile.
+    /// </summary>
+    /// <returns>Projectile GameObject</returns>
     private GameObject GetProjectile()
     {
         GameObject go;
-        if(Arrow.Arrows.Count > 0)
+        
+        if(Arrow.Arrows.Count > 0) //If there are pooled arrows, grab one of those.
         {
             go = Arrow.Arrows[0].gameObject;
             Arrow.Arrows.RemoveAt(0);
-        } else
+        } else //Otherwise, instantiate one.
         {
             go = Instantiate(projectile);
         }
@@ -99,6 +132,10 @@ public class Archers : MonoBehaviour {
         return go;
     }
 
+    /// <summary>
+    /// Recursive launch pattern that will launch projectiles at a set interval.
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator LaunchSequence()
     {
         float t = timeBetweenLaunches;

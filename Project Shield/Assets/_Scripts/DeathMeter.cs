@@ -21,12 +21,18 @@ public class DeathMeter : MonoBehaviour {
 
     private int deathSymbolIndex;
 
+    /********************************************************************************************/
+    /************************************* UNITY BEHAVIOURS *************************************/
+    /********************************************************************************************/
 
+<<<<<<< HEAD
 
     /********************************************************************************************/
     /************************************* UNITY BEHAVIOURS *************************************/
     /********************************************************************************************/
 
+=======
+>>>>>>> 11bcf5b6fe9f3722a181c2a023232ad44a381d09
     void Start () {
         GameManager.Instance.GameStateChanged += GameManager_GameStateChanged;
         GameManager.Instance.DeathsChanged += GameManager_DeathsChanged;
@@ -34,9 +40,14 @@ public class DeathMeter : MonoBehaviour {
         wfs_deactivate = new WaitForSeconds(deactivateSymbolTime);
 	}
 
+<<<<<<< HEAD
 
     /********************************************************************************************/
     /************************************* EVENT RESPONDERS *************************************/
+=======
+    /********************************************************************************************/
+    /************************************* EVENT LISTENERS **************************************/
+>>>>>>> 11bcf5b6fe9f3722a181c2a023232ad44a381d09
     /********************************************************************************************/
 
     private void GameManager_DeathsChanged(object sender, GameManager.DeathsChangedArgs e)
@@ -65,7 +76,11 @@ public class DeathMeter : MonoBehaviour {
     /********************************************************************************************/
 
     /// <summary>
+<<<<<<< HEAD
     /// Create appropriate number of death symbols.
+=======
+    /// Create death symbols.
+>>>>>>> 11bcf5b6fe9f3722a181c2a023232ad44a381d09
     /// </summary>
     private void InitializeDeathSymbols()
     {
@@ -78,7 +93,11 @@ public class DeathMeter : MonoBehaviour {
     }
 
     /// <summary>
+<<<<<<< HEAD
     /// Layout death symbols at bottom of screen and ensure they are free of physics simulation.
+=======
+    /// Remove death symbols from physics simulation and lay them out at bottom of screen.
+>>>>>>> 11bcf5b6fe9f3722a181c2a023232ad44a381d09
     /// </summary>
     private void ResetDeathSymbols()
     {
@@ -97,7 +116,11 @@ public class DeathMeter : MonoBehaviour {
     }
 
     /// <summary>
+<<<<<<< HEAD
     /// Add the last death symbol to the physics simulation and add upward force.
+=======
+    /// Add the trailing death symbol to the physics simulation and pop it upwards with a small vertical force.
+>>>>>>> 11bcf5b6fe9f3722a181c2a023232ad44a381d09
     /// </summary>
     private void PopDeath()
     {
@@ -110,9 +133,15 @@ public class DeathMeter : MonoBehaviour {
     }
     
     /// <summary>
+<<<<<<< HEAD
     /// Routine to remove death symbol from physics simulation after a delay.
     /// </summary>
     /// <param name="rb2d"></param>
+=======
+    /// Coroutine to remove a death symbol from the physics simulation after a delay.
+    /// </summary>
+    /// <param name="rb2d">The death symbol to remove from physics simulation.</param>
+>>>>>>> 11bcf5b6fe9f3722a181c2a023232ad44a381d09
     /// <returns></returns>
     private IEnumerator DeactivateSymbolTimer(Rigidbody2D rb2d)
     {

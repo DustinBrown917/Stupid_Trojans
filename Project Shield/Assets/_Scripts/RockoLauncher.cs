@@ -18,16 +18,23 @@ public class RockoLauncher : MonoBehaviour {
 
     private AudioSource audioSource;
 
+    /********************************************************************************************/
+    /************************************* UNITY BEHAVIOURS *************************************/
+    /********************************************************************************************/
+
     private void Awake()
     {
         wfs_launchWaitTime = new WaitForSeconds(launchWaitTime);
         audioSource = GetComponent<AudioSource>();
     }
 
-    // Use this for initialization
     void Start () {
         GameManager.Instance.GameStateChanged += GameManager_GameStateChanged;
 	}
+
+    /********************************************************************************************/
+    /************************************* EVENT LISTENERS **************************************/
+    /********************************************************************************************/
 
     private void GameManager_GameStateChanged(object sender, GameManager.GameStateChangedArgs e)
     {
@@ -41,13 +48,22 @@ public class RockoLauncher : MonoBehaviour {
         }
     }
 
+    /********************************************************************************************/
+    /**************************************** BEHAVIOURS ****************************************/
+    /********************************************************************************************/
 
+    /// <summary>
+    /// Start the repeating launch sequence.
+    /// </summary>
     public void StartLaunching()
     {
         StopLaunching();
         cr_LaunchSequence = StartCoroutine(LaunchSequence());
     }
 
+    /// <summary>
+    /// Halt the repeating launch sequence.
+    /// </summary>
     public void StopLaunching()
     {
         if (cr_LaunchSequence != null)
@@ -57,6 +73,10 @@ public class RockoLauncher : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Coroutine that launches Rockos at a set interval.
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator LaunchSequence()
     {
         yield return wfs_launchWaitTime;
@@ -64,6 +84,9 @@ public class RockoLauncher : MonoBehaviour {
         cr_LaunchSequence = StartCoroutine(LaunchSequence());
     }
 
+    /// <summary>
+    /// Launches a Rocko.
+    /// </summary>
     private void LaunchRock()
     {
         GameObject projectile = GetRocko();
@@ -73,13 +96,17 @@ public class RockoLauncher : MonoBehaviour {
         rb2d.angularVelocity = UnityEngine.Random.Range(-variableTorque, variableTorque);
     }
 
+    /// <summary>
+    /// Retrieves a Rocko GameObject.
+    /// </summary>
+    /// <returns>A Rocko GameObject.</returns>
     private GameObject GetRocko()
     {
         GameObject rocko;
-        if(Rocko.PooledRockos.Count > 0)
+        if(Rocko.PooledRockos.Count > 0) //If there are pooled Rockos, grab one...
         {
             rocko = Rocko.PooledRockos.Dequeue().gameObject;
-        } else
+        } else //... else instantiate one.
         {
             rocko = Instantiate(rockoGO);
         }

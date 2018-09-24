@@ -9,6 +9,10 @@ public class Wheel : MonoBehaviour {
 
     private Quaternion initialRotaion;
 
+    /********************************************************************************************/
+    /************************************* UNITY BEHAVIOURS *************************************/
+    /********************************************************************************************/
+
     private void Awake()
     {
         initialRotaion = transform.rotation;
@@ -19,11 +23,6 @@ public class Wheel : MonoBehaviour {
         transform.rotation = initialRotaion;
     }
 
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
 	void Update () {
         transform.Rotate(Vector3.forward, rotationSpeed);
 	}

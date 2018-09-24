@@ -26,18 +26,29 @@ public class MusicManager : MonoBehaviour {
     private string musicVolString = "musicVol";
     private string sfxVolString = "sfxVol";
 
+    /********************************************************************************************/
+    /************************************* UNITY BEHAVIOURS *************************************/
+    /********************************************************************************************/
+
     private void Awake()
     {
         Instance = this;
         audioSource = GetComponent<AudioSource>();
-        
     }
 
-    // Use this for initialization
     void Start () {
         GameManager.Instance.GameStateChanged += GameManager_GameStateChanged;
         LoadSoundVol();
     }
+
+    private void OnApplicationQuit()
+    {
+        SaveSoundVol();
+    }
+
+    /********************************************************************************************/
+    /************************************* EVENT LISTENERS **************************************/
+    /********************************************************************************************/
 
     private void GameManager_GameStateChanged(object sender, GameManager.GameStateChangedArgs e)
     {
@@ -52,26 +63,42 @@ public class MusicManager : MonoBehaviour {
         audioSource.Play();
     }
 
-    // Update is called once per frame
-    void Update () {
-		
-	}
+    /********************************************************************************************/
+    /**************************************** BEHAVIOURS ****************************************/
+    /********************************************************************************************/
 
+    /// <summary>
+    /// Sets the master volume to a specified level.
+    /// </summary>
+    /// <param name="masterVol">The level to set the volume to.</param>
     public void SetMasterVol(float masterVol)
     {
         masterMixer.SetFloat(masterVolString, Mathf.Lerp(minVol, maxVol, masterVol));
     }
 
+
+    /// <summary>
+    /// Sets the music volume to a specified level.
+    /// </summary>
+    /// <param name="musicVol">The level to set the volume to.</param>
     public void SetMusicVol(float musicVol)
     {
         masterMixer.SetFloat(musicVolString, Mathf.Lerp(minVol, maxVol, musicVol));
     }
 
+    /// <summary>
+    /// Sets the sfx volume to a specified level.
+    /// </summary>
+    /// <param name="sfxVol">The level to set the volume to.</param>
     public void SetSFXVol(float sfxVol)
     {
         masterMixer.SetFloat(sfxVolString, Mathf.Lerp(minVol, maxVol, sfxVol));
     }
 
+
+    /// <summary>
+    /// Save the volume of each mixer group to the PlayerPrefs.
+    /// </summary>
     private void SaveSoundVol()
     {
         float master;
@@ -87,6 +114,9 @@ public class MusicManager : MonoBehaviour {
         PlayerPrefs.SetFloat(sfxVolString, sfx);
     }
 
+    /// <summary>
+    /// Load the volume of each mixer group from the player prefs.
+    /// </summary>
     private void LoadSoundVol()
     {
         
@@ -106,6 +136,10 @@ public class MusicManager : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Get the current volume of the masterMixer.
+    /// </summary>
+    /// <returns>The current volume of the master mixer.</returns>
     public float GetMasterVolFloat()
     {
         float vol;
@@ -114,6 +148,10 @@ public class MusicManager : MonoBehaviour {
         return vol;
     }
 
+    /// <summary>
+    /// Get the current volume of the masterMixer normalized to 1.
+    /// </summary>
+    /// <returns>Volume of masterMixer normalized to 1.</returns>
     public float GetMasterVolFactor()
     {
         float vol;
@@ -123,6 +161,10 @@ public class MusicManager : MonoBehaviour {
         return factor;
     }
 
+    /// <summary>
+    /// Get the current volume of the musicMixer.
+    /// </summary>
+    /// <returns>The current volume of the musicMixer.</returns>
     public float GetMusicVolFloat()
     {
         float vol;
@@ -131,6 +173,10 @@ public class MusicManager : MonoBehaviour {
         return vol;
     }
 
+    /// <summary>
+    /// Get the current volume of the musicMixer normalized to 1.
+    /// </summary>
+    /// <returns>The current volume of the musicMixer normalized to 1.</returns>
     public float GetMusicVolFactor()
     {
         float vol;
@@ -140,6 +186,10 @@ public class MusicManager : MonoBehaviour {
         return factor;
     }
 
+    /// <summary>
+    /// Get the current volume of the sfxMixer.
+    /// </summary>
+    /// <returns>The current volume of the sfxMixer.</returns>
     public float GetSfxVolFloat()
     {
         float vol;
@@ -148,6 +198,10 @@ public class MusicManager : MonoBehaviour {
         return vol;
     }
 
+    /// <summary>
+    /// Get the current volume of the sfxMixer normalized to 1.
+    /// </summary>
+    /// <returns>The current volume of the sfxMixer normalized to 1.</returns>
     public float GetSfxVolFactor()
     {
         float vol;
@@ -158,8 +212,5 @@ public class MusicManager : MonoBehaviour {
     }
 
 
-    private void OnApplicationQuit()
-    {
-        SaveSoundVol();
-    }
+
 }

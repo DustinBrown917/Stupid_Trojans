@@ -4,10 +4,19 @@ using UnityEngine;
 
 public class GoHomeMenu : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
+
+    /********************************************************************************************/
+    /************************************* UNITY BEHAVIOURS *************************************/
+    /********************************************************************************************/
+
+    void Start () {
         GameManager.Instance.PauseStateChanged += GameManager_PauseStateChanged;
 	}
+
+
+    /********************************************************************************************/
+    /************************************* EVENT LISTENERS **************************************/
+    /********************************************************************************************/
 
     private void GameManager_PauseStateChanged(object sender, System.EventArgs e)
     {
@@ -17,11 +26,13 @@ public class GoHomeMenu : MonoBehaviour {
         }
     }
 
-    // Update is called once per frame
-    void Update () {
-		
-	}
+    /********************************************************************************************/
+    /**************************************** BEHAVIOURS ****************************************/
+    /********************************************************************************************/
 
+    /// <summary>
+    /// Set the GameState of the game to START_SCREEN.
+    /// </summary>
     public void ReturnToStart()
     {
         GameManager.Instance.ChangeGameState(GameManager.GameState.START_SCREEN);

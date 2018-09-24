@@ -28,17 +28,21 @@ public class Arrow : MonoBehaviour {
         audioSource = GetComponent<AudioSource>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         trailRenderer = GetComponentInChildren<TrailRenderer>();
-        
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 11bcf5b6fe9f3722a181c2a023232ad44a381d09
 	
-	// Update is called once per frame
 	void Update () {
         if (isFlying)
         {
+<<<<<<< HEAD
             transform.up = rb2d.velocity; //Point the arrow in the direction it is moving.
+=======
+            transform.up = rb2d.velocity; //Point arrow in direction of movement.
+>>>>>>> 11bcf5b6fe9f3722a181c2a023232ad44a381d09
         }
-
 	}
 
     private void OnDisable()
@@ -56,7 +60,11 @@ public class Arrow : MonoBehaviour {
             audioSource.Play();
         }
         
+<<<<<<< HEAD
         //Remove from physics calculations and set as harmless child of collided object.
+=======
+        //Remove Arrow from physics sim and add as child of collided object.
+>>>>>>> 11bcf5b6fe9f3722a181c2a023232ad44a381d09
         rb2d.isKinematic = true;
         col2d.enabled = false;
         isFlying = false;
@@ -66,7 +74,6 @@ public class Arrow : MonoBehaviour {
         transform.parent = collision.gameObject.transform;
 
         DisableTrail();
-
     }
 
     /********************************************************************************************/
@@ -74,7 +81,11 @@ public class Arrow : MonoBehaviour {
     /********************************************************************************************/
 
     /// <summary>
+<<<<<<< HEAD
     /// Return the arrow to its initialized state.
+=======
+    /// Return the Arrow to its initialized state.
+>>>>>>> 11bcf5b6fe9f3722a181c2a023232ad44a381d09
     /// </summary>
     public void Revert()
     {
@@ -87,7 +98,11 @@ public class Arrow : MonoBehaviour {
     }
 
     /// <summary>
+<<<<<<< HEAD
     /// Enable the trail renderer component.
+=======
+    /// Enable the Arrow's trail renderer component.
+>>>>>>> 11bcf5b6fe9f3722a181c2a023232ad44a381d09
     /// </summary>
     public void EnableTrail()
     {
@@ -96,7 +111,11 @@ public class Arrow : MonoBehaviour {
     }
 
     /// <summary>
+<<<<<<< HEAD
     /// Disable the trail renderer component.
+=======
+    /// Disable the Arrow's trail renderer component.
+>>>>>>> 11bcf5b6fe9f3722a181c2a023232ad44a381d09
     /// </summary>
     public void DisableTrail()
     {
@@ -104,9 +123,15 @@ public class Arrow : MonoBehaviour {
     }
 
     /// <summary>
+<<<<<<< HEAD
     /// Fade the arrow's alpha to 0 then disable.
     /// </summary>
     /// <param name="time"></param>
+=======
+    /// Fades the Arrow's alpha to 0 before disabling it.
+    /// </summary>
+    /// <param name="time">The length of time the fade should take.</param>
+>>>>>>> 11bcf5b6fe9f3722a181c2a023232ad44a381d09
     /// <returns></returns>
     private IEnumerator Fade(float time)
     {
@@ -123,7 +148,10 @@ public class Arrow : MonoBehaviour {
         Arrows.Add(this); //Pool the arrow.
         gameObject.SetActive(false);
     }
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> 11bcf5b6fe9f3722a181c2a023232ad44a381d09
 }

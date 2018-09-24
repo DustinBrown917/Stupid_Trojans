@@ -15,10 +15,17 @@ public class TroopSpawner : MonoBehaviour {
     private float difficultyIncrementScale = 0.1f;
     private Coroutine cr_SpawnCycle = null;
 
-	// Use this for initialization
-	void Start () {
+    /********************************************************************************************/
+    /************************************* UNITY BEHAVIOURS *************************************/
+    /********************************************************************************************/
+
+    void Start () {
         GameManager.Instance.GameStateChanged += GameManager_GameStateChanged;
 	}
+
+    /********************************************************************************************/
+    /************************************* EVENT LISTENERS **************************************/
+    /********************************************************************************************/
 
     private void GameManager_GameStateChanged(object sender, GameManager.GameStateChangedArgs e)
     {
@@ -31,17 +38,22 @@ public class TroopSpawner : MonoBehaviour {
         }
     }
 
-    // Update is called once per frame
-    void Update () {
-		
-	}
+    /********************************************************************************************/
+    /**************************************** BEHAVIOURS ****************************************/
+    /********************************************************************************************/
 
+    /// <summary>
+    /// Start the repeating spawn sequence.
+    /// </summary>
     public void StartSpawning()
     {
         StopSpawning();
         cr_SpawnCycle = StartCoroutine(SpawnCycle());
     }
 
+    /// <summary>
+    /// Stop all spawning Coroutines on this script.
+    /// </summary>
     public void StopSpawning()
     {
         if(cr_SpawnCycle != null)
@@ -51,6 +63,10 @@ public class TroopSpawner : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Coroutine that repeatedly spawns new troops based on a difficulty gradient.
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator SpawnCycle()
     {
         while (true)
@@ -61,15 +77,19 @@ public class TroopSpawner : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Retrieves a Troop.
+    /// </summary>
+    /// <returns>The retrieved Troop.</returns>
     private Troop GetTroop()
     {
         Troop t;
 
-        if(Troop.Troops.Count > 0)
+        if(Troop.Troops.Count > 0) //If the Troop pool isn't empty, take one from there...
         {
             t = Troop.Troops[0];
             Troop.Troops.RemoveAt(0);
-        } else
+        } else//... else instantiate one.
         {
             t = Instantiate(troop, transform).GetComponent<Troop>();
         }
@@ -77,6 +97,9 @@ public class TroopSpawner : MonoBehaviour {
         return t;
     }
 
+    /// <summary>
+    /// Reset and place a Troop.
+    /// </summary>
     private void DeployTroop()
     {
         Troop t = GetTroop();

@@ -20,6 +20,10 @@ public class ShieldUmbrella : MonoBehaviour {
 
     private SpriteRenderer spriteRenderer;
 
+    /********************************************************************************************/
+    /************************************* UNITY BEHAVIOURS *************************************/
+    /********************************************************************************************/
+
     private void Awake()
     {
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
@@ -36,8 +40,19 @@ public class ShieldUmbrella : MonoBehaviour {
         audioSource.Play();
     }
 
-    
+    void Update()
+    {
+        rb2d.velocity = speedVector;
+    }
 
+    /********************************************************************************************/
+    /**************************************** BEHAVIOURS ****************************************/
+    /********************************************************************************************/
+
+    /// <summary>
+    /// Coroutine that waits for a set time before it flashes the image of the shield platform.
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator KillTimer()
     {
         yield return new WaitForSeconds(duration * 0.75f);
@@ -45,6 +60,10 @@ public class ShieldUmbrella : MonoBehaviour {
         StartCoroutine(Flash());
     }
 
+    /// <summary>
+    /// Coroutine that flashes the alpha of the shield platform before disabling.
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator Flash()
     {
         float time = duration * 0.25f;
@@ -68,13 +87,4 @@ public class ShieldUmbrella : MonoBehaviour {
         gameObject.SetActive(false);
     }
 
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-        rb2d.velocity = speedVector;
-    }
 }

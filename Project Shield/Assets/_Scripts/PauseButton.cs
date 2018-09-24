@@ -15,11 +15,18 @@ public class PauseButton : MonoBehaviour {
     [SerializeField]
     private Sprite pauseGraphic;
 
-    // Use this for initialization
+    /********************************************************************************************/
+    /************************************* UNITY BEHAVIOURS *************************************/
+    /********************************************************************************************/
+
     void Start () {
         GameManager.Instance.GameStateChanged += GameManager_GameStateChanged;
         GameManager.Instance.PauseStateChanged += GameManager_PauseStateChanged;
 	}
+
+    /********************************************************************************************/
+    /************************************* EVENT LISTENERS **************************************/
+    /********************************************************************************************/
 
     private void GameManager_PauseStateChanged(object sender, System.EventArgs e)
     {
@@ -43,11 +50,13 @@ public class PauseButton : MonoBehaviour {
         }
     }
 
-    // Update is called once per frame
-    void Update () {
-		
-	}
+    /********************************************************************************************/
+    /**************************************** BEHAVIOURS ****************************************/
+    /********************************************************************************************/
 
+    /// <summary>
+    /// Toggle the pause state of the game.
+    /// </summary>
     public void TogglePauseGame()
     {
         if (GameManager.Instance.Paused)
@@ -59,6 +68,10 @@ public class PauseButton : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Sets the active state of the button.
+    /// </summary>
+    /// <param name="active">Whether or not the button should be active.</param>
     public void SetButtonActive(bool active)
     {
         pauseButton.SetActive(active);

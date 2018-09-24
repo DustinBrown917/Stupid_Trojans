@@ -16,6 +16,10 @@ public class SoundOptionManager : MonoBehaviour {
     [SerializeField]
     private Slider sfxSlider;
 
+    /********************************************************************************************/
+    /************************************* UNITY BEHAVIOURS *************************************/
+    /********************************************************************************************/
+
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
@@ -28,6 +32,13 @@ public class SoundOptionManager : MonoBehaviour {
         sfxSlider.value = MusicManager.Instance.GetSfxVolFactor();
     }
 
+    /********************************************************************************************/
+    /**************************************** BEHAVIOURS ****************************************/
+    /********************************************************************************************/
+
+    /// <summary>
+    /// Plays a sample audio clip.
+    /// </summary>
     public void PlayTestAudio()
     {
         if (!playSound) { return; }
@@ -36,6 +47,10 @@ public class SoundOptionManager : MonoBehaviour {
         StartCoroutine(ResetPlaySound());
     }
 
+    /// <summary>
+    /// Coroutine that limits the sample audio to play at a specified interval.
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator ResetPlaySound()
     {
         yield return wfs;

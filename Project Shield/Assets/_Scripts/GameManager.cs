@@ -22,6 +22,10 @@ public class GameManager : MonoBehaviour {
     [SerializeField]
     private int _deathsAllowed = 10;
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 11bcf5b6fe9f3722a181c2a023232ad44a381d09
     /********************************************************************************************/
     /************************************* UNITY BEHAVIOURS *************************************/
     /********************************************************************************************/
@@ -43,9 +47,15 @@ public class GameManager : MonoBehaviour {
     /********************************************************************************************/
 
     /// <summary>
+<<<<<<< HEAD
     /// Change the GameState
     /// </summary>
     /// <param name="newState"></param>
+=======
+    /// Changes the GameState of the game.
+    /// </summary>
+    /// <param name="newState">The GameState to change to.</param>
+>>>>>>> 11bcf5b6fe9f3722a181c2a023232ad44a381d09
     public void ChangeGameState(GameState newState)
     {
         if(newState == state) { return; }
@@ -70,7 +80,11 @@ public class GameManager : MonoBehaviour {
             }
             UnpauseGame();         
         }
+<<<<<<< HEAD
         catch(Exception e) //Forward bugs to the BugLog
+=======
+        catch(Exception e) // Push any errors to the BugLog.
+>>>>>>> 11bcf5b6fe9f3722a181c2a023232ad44a381d09
         {
             BugLog.Instance.gameObject.SetActive(true);
             BugLog.Instance.ShowException(e);
@@ -80,7 +94,11 @@ public class GameManager : MonoBehaviour {
     }
 
     /// <summary>
+<<<<<<< HEAD
     /// Increase _deaths by 1.
+=======
+    /// Add a death to the _deaths score.
+>>>>>>> 11bcf5b6fe9f3722a181c2a023232ad44a381d09
     /// </summary>
     public void AddDeath()
     {
@@ -100,9 +118,15 @@ public class GameManager : MonoBehaviour {
     }
 
     /// <summary>
+<<<<<<< HEAD
     /// Set _deaths to a specified value.
     /// </summary>
     /// <param name="deaths">The number to set _deaths to.</param>
+=======
+    /// Set the death score to a specified number.
+    /// </summary>
+    /// <param name="deaths">The number to set deaths to.</param>
+>>>>>>> 11bcf5b6fe9f3722a181c2a023232ad44a381d09
     public void SetDeaths(int deaths)
     {
         DeathsChangedArgs args = new DeathsChangedArgs();
@@ -114,7 +138,11 @@ public class GameManager : MonoBehaviour {
     }
 
     /// <summary>
+<<<<<<< HEAD
     /// Close the application.
+=======
+    /// Quit the application.
+>>>>>>> 11bcf5b6fe9f3722a181c2a023232ad44a381d09
     /// </summary>
     public void QuitGame()
     {
@@ -133,7 +161,11 @@ public class GameManager : MonoBehaviour {
     }
 
     /// <summary>
+<<<<<<< HEAD
     /// Unpause the game. C'mon, you could've figured that one out.
+=======
+    /// Unpause the game. C'mon, you could have figured that one out on your own.
+>>>>>>> 11bcf5b6fe9f3722a181c2a023232ad44a381d09
     /// </summary>
     public void UnpauseGame()
     {
@@ -148,7 +180,14 @@ public class GameManager : MonoBehaviour {
     /****************************************** EVENTS ******************************************/
     /********************************************************************************************/
 
+<<<<<<< HEAD
     #region GameStateChanged Event.
+=======
+    /// <summary>
+    /// Called when the GameState of the game changes.
+    /// </summary>
+    #region GameStateChanged Event
+>>>>>>> 11bcf5b6fe9f3722a181c2a023232ad44a381d09
     public event EventHandler<GameStateChangedArgs> GameStateChanged;
 
     public class GameStateChangedArgs : EventArgs
@@ -168,8 +207,15 @@ public class GameManager : MonoBehaviour {
     }
     #endregion
 
+<<<<<<< HEAD
 
     #region DeathsChanged Event.
+=======
+    /// <summary>
+    /// Called when the death score changes.
+    /// </summary>
+    #region DeathsChanges Event.
+>>>>>>> 11bcf5b6fe9f3722a181c2a023232ad44a381d09
     public event EventHandler<DeathsChangedArgs> DeathsChanged;
 
     public class DeathsChangedArgs : EventArgs
@@ -190,7 +236,13 @@ public class GameManager : MonoBehaviour {
 
     #endregion
 
+<<<<<<< HEAD
 
+=======
+    /// <summary>
+    /// Called when the game switches between paused and unpaused.
+    /// </summary>
+>>>>>>> 11bcf5b6fe9f3722a181c2a023232ad44a381d09
     #region PauseStateChanged Event.
     public event EventHandler PauseStateChanged;
 
@@ -206,7 +258,10 @@ public class GameManager : MonoBehaviour {
 
     #endregion
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 11bcf5b6fe9f3722a181c2a023232ad44a381d09
     /********************************************************************************************/
     /****************************************** ENUMS *******************************************/
     /********************************************************************************************/

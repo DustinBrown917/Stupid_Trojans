@@ -36,12 +36,13 @@ public class Archers : MonoBehaviour {
     }
 
     void Start () {
-        Instance = this;
+        Instance = this; //Singleton pattern...
 
         GameManager.Instance.GameStateChanged += GameManager_GameStateChanged;
 	}
 
     /********************************************************************************************/
+<<<<<<< HEAD
     /************************************* EVENT RESPONDERS *************************************/
     /********************************************************************************************/
 
@@ -50,6 +51,11 @@ public class Archers : MonoBehaviour {
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
+=======
+    /************************************* EVENT LISTENERS **************************************/
+    /********************************************************************************************/
+
+>>>>>>> 11bcf5b6fe9f3722a181c2a023232ad44a381d09
     private void GameManager_GameStateChanged(object sender, GameManager.GameStateChangedArgs e)
     {
         if(GameManager.Instance.state != GameManager.GameState.PLAYING)
@@ -66,7 +72,11 @@ public class Archers : MonoBehaviour {
     /********************************************************************************************/
 
     /// <summary>
+<<<<<<< HEAD
     /// Begin the recursive launching pattern.
+=======
+    /// Start the repeating launch pattern.
+>>>>>>> 11bcf5b6fe9f3722a181c2a023232ad44a381d09
     /// </summary>
     public void StartLaunching()
     {
@@ -75,7 +85,11 @@ public class Archers : MonoBehaviour {
     }
 
     /// <summary>
+<<<<<<< HEAD
     /// Stop and dispose of launch sequence coroutines.
+=======
+    /// Stop the repeating lauch pattern.
+>>>>>>> 11bcf5b6fe9f3722a181c2a023232ad44a381d09
     /// </summary>
     public void StopLaunching()
     {
@@ -98,6 +112,7 @@ public class Archers : MonoBehaviour {
         while (c < numOfArrows)
         {
             Rigidbody2D rb2d = GetProjectile().GetComponent<Rigidbody2D>();
+            //Add random force to projectile.
             Vector2 launchForce = new Vector2(UnityEngine.Random.Range(minLaunchForce.x, maxLaunchForce.x), UnityEngine.Random.Range(minLaunchForce.y, maxLaunchForce.y));
             rb2d.AddForce(launchForce);
             c++;
@@ -106,6 +121,7 @@ public class Archers : MonoBehaviour {
     }
 
     /// <summary>
+<<<<<<< HEAD
     /// Retrieve a projectile.
     /// </summary>
     /// <returns>Projectile GameObject</returns>
@@ -118,6 +134,19 @@ public class Archers : MonoBehaviour {
             go = Arrow.Arrows[0].gameObject;
             Arrow.Arrows.RemoveAt(0);
         } else //Otherwise, instantiate one.
+=======
+    /// Retrieve a projectile GameObject.
+    /// </summary>
+    /// <returns>A projectile GameObject.</returns>
+    private GameObject GetProjectile()
+    {
+        GameObject go;
+        if(Arrow.Arrows.Count > 0) //If there are Arrows in the pool, take from there...
+        {
+            go = Arrow.Arrows[0].gameObject;
+            Arrow.Arrows.RemoveAt(0);
+        } else //... otherwise instantiate a new one.
+>>>>>>> 11bcf5b6fe9f3722a181c2a023232ad44a381d09
         {
             go = Instantiate(projectile);
         }
@@ -133,7 +162,11 @@ public class Archers : MonoBehaviour {
     }
 
     /// <summary>
+<<<<<<< HEAD
     /// Recursive launch pattern that will launch projectiles at a set interval.
+=======
+    /// Recurseive coroutine that will continually launch projectiles until explicitly stopped.
+>>>>>>> 11bcf5b6fe9f3722a181c2a023232ad44a381d09
     /// </summary>
     /// <returns></returns>
     private IEnumerator LaunchSequence()

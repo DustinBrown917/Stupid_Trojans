@@ -16,6 +16,10 @@ public class ProjectileShield : MonoBehaviour {
 
     private AudioSource audioSource;
 
+    /********************************************************************************************/
+    /************************************* UNITY BEHAVIOURS *************************************/
+    /********************************************************************************************/
+
     private void Awake()
     {
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
@@ -30,16 +34,6 @@ public class ProjectileShield : MonoBehaviour {
         audioSource.Play();
     }
 
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag != "Projectile" && cr_Fading == null)
@@ -48,6 +42,14 @@ public class ProjectileShield : MonoBehaviour {
         }
     }
 
+    /********************************************************************************************/
+    /**************************************** BEHAVIOURS ****************************************/
+    /********************************************************************************************/
+
+    /// <summary>
+    /// Coroutine that will fade the shield's alpha to 0, then disable it.
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator FadeAndDisable()
     {
         float t = 0;
